@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   title = 'employeeManagerFrontend';
 
   public employees!: Employee[];
+  editEmployee!: Employee;
 
   constructor(private empService: EmployeeService) {}
 
@@ -44,6 +45,17 @@ export class AppComponent implements OnInit {
       }
     );
   }
+  public onUpdateEmloyee(employee: Employee): void {
+    this.empService.updateEmployee(employee).subscribe(
+      (response: Employee) => {
+        console.log(response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
 
   public searchEmployees(value: string) {}
 
@@ -54,13 +66,18 @@ export class AppComponent implements OnInit {
     button.style.display = 'none';
     button.setAttribute('data-toggle', 'modal');
 
-    if (mode === 'add') button.setAttribute('data-target', '#addEmployeeModal');
+    if (mode === 'add') {
+      button.setAttribute('data-target', '#addEmployeeModal');
+    }
 
-    if (mode === 'edit')
+    if (mode === 'edit') {
+      this.editEmployee = employee;
       button.setAttribute('data-target', '#updateEmployeeModal');
+    }
 
-    if (mode === 'delete')
+    if (mode === 'delete') {
       button.setAttribute('data-target', '#deleteEmployeeModal');
+    }
 
     container?.appendChild(button);
     button.click();

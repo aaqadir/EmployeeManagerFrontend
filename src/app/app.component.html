@@ -220,11 +220,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form #editForm="ngForm">
           <div class="form-group">
             <label for="name">Name</label>
             <input
               type="text"
+              ngModel="{{ editEmployee?.name }}"
               name="name"
               class="form-control"
               id="name"
@@ -234,6 +235,7 @@
           </div>
           <input
             type="hidden"
+            ngModel="{{ editEmployee?.id }}"
             name="id"
             class="form-control"
             id="id"
@@ -241,6 +243,7 @@
           />
           <input
             type="hidden"
+            ngModel="{{ editEmployee?.employeeCode }}"
             name="userCode"
             class="form-control"
             id="userCode"
@@ -250,6 +253,7 @@
             <label for="email">Email Address</label>
             <input
               type="email"
+              ngModel="{{ editEmployee?.email }}"
               name="email"
               class="form-control"
               id="email"
@@ -260,6 +264,7 @@
             <label for="phone">Job title</label>
             <input
               type="text"
+              ngModel="{{ editEmployee?.jobTitle }}"
               name="jobTitle"
               class="form-control"
               id="jobTitle"
@@ -270,6 +275,7 @@
             <label for="phone">Phone</label>
             <input
               type="text"
+              ngModel="{{ editEmployee?.phone }}"
               name="phone"
               class="form-control"
               id="phone"
@@ -281,6 +287,7 @@
             <label for="phone">Image URL</label>
             <input
               type="text"
+              ngModel="{{ editEmployee?.imageUrl }}"
               name="imageUrl"
               class="form-control"
               id="imageUrl"
@@ -296,7 +303,11 @@
             >
               Close
             </button>
-            <button data-dismiss="modal" class="btn btn-primary">
+            <button
+              (click)="onUpdateEmloyee(editForm.value)"
+              data-dismiss="modal"
+              class="btn btn-primary"
+            >
               Save changes
             </button>
           </div>
