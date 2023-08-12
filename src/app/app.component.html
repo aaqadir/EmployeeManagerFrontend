@@ -1,4 +1,3 @@
-<!-- nav bar with menu -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" style="color: white">Employee Manager</a>
   <button
@@ -23,7 +22,7 @@
     <form class="form-inline my-2 my-lg-0">
       <input
         type="search"
-        (ngModelChange)="searchEmployees(key.value)"
+        (ngModelChange)="onSeachEmployees(key.value)"
         #key="ngModel"
         ngModel
         name="key"
@@ -209,7 +208,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updateEmployeeModalLabel">Edit Employee</h5>
+        <h5 class="modal-title" id="updateEmployeeModalLabel">
+          Edit Employee: {{ currentEmployee?.name }}
+        </h5>
         <button
           type="button"
           class="close"
@@ -225,7 +226,7 @@
             <label for="name">Name</label>
             <input
               type="text"
-              ngModel="{{ editEmployee?.name }}"
+              ngModel="{{ currentEmployee?.name }}"
               name="name"
               class="form-control"
               id="name"
@@ -235,7 +236,7 @@
           </div>
           <input
             type="hidden"
-            ngModel="{{ editEmployee?.id }}"
+            ngModel="{{ currentEmployee?.id }}"
             name="id"
             class="form-control"
             id="id"
@@ -243,7 +244,7 @@
           />
           <input
             type="hidden"
-            ngModel="{{ editEmployee?.employeeCode }}"
+            ngModel="{{ currentEmployee?.employeeCode }}"
             name="userCode"
             class="form-control"
             id="userCode"
@@ -253,7 +254,7 @@
             <label for="email">Email Address</label>
             <input
               type="email"
-              ngModel="{{ editEmployee?.email }}"
+              ngModel="{{ currentEmployee?.email }}"
               name="email"
               class="form-control"
               id="email"
@@ -264,7 +265,7 @@
             <label for="phone">Job title</label>
             <input
               type="text"
-              ngModel="{{ editEmployee?.jobTitle }}"
+              ngModel="{{ currentEmployee?.jobTitle }}"
               name="jobTitle"
               class="form-control"
               id="jobTitle"
@@ -275,7 +276,7 @@
             <label for="phone">Phone</label>
             <input
               type="text"
-              ngModel="{{ editEmployee?.phone }}"
+              ngModel="{{ currentEmployee?.phone }}"
               name="phone"
               class="form-control"
               id="phone"
@@ -287,7 +288,7 @@
             <label for="phone">Image URL</label>
             <input
               type="text"
-              ngModel="{{ editEmployee?.imageUrl }}"
+              ngModel="{{ currentEmployee?.imageUrl }}"
               name="imageUrl"
               class="form-control"
               id="imageUrl"
@@ -340,12 +341,20 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete employee</p>
+        <p>
+          Are you sure you want to delete employee {{ currentEmployee?.name }}
+        </p>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             No
           </button>
-          <button class="btn btn-danger" data-dismiss="modal">Yes</button>
+          <button
+            (click)="onDeleteEmloyee(currentEmployee.id)"
+            class="btn btn-danger"
+            data-dismiss="modal"
+          >
+            Yes
+          </button>
         </div>
       </div>
     </div>

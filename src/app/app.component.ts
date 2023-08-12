@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   title = 'employeeManagerFrontend';
 
   public employees!: Employee[];
-  editEmployee!: Employee;
+  currentEmployee!: Employee;
 
   constructor(private empService: EmployeeService) {}
 
@@ -57,7 +57,36 @@ export class AppComponent implements OnInit {
     );
   }
 
-  public searchEmployees(value: string) {}
+  public onDeleteEmloyee(employeeId: number): void {
+    this.empService.deleteEmployeeById(employeeId).subscribe(
+      (response: void) => {
+        console.log('onDeleteEmloyee: ' + response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public onSeachEmployees(key: string): void {
+    console.log(key);
+    const results: Employee[] = [];
+    for (const employee of this.employees) {
+      if (
+        employee.name.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+        employee.email.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+        employee.phone.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+        employee.jobTitle.toLowerCase().indexOf(key.toLowerCase()) !== -1
+      ) {
+        results.push(employee);
+      }
+    }
+    this.employees = results;
+    if (results.length === 0 || !key) {
+      this.getEmployees();
+    }
+  }
 
   public onOpenModal(employee: any, mode: string): void {
     const container = document.getElementById('main-container');
@@ -71,11 +100,12 @@ export class AppComponent implements OnInit {
     }
 
     if (mode === 'edit') {
-      this.editEmployee = employee;
+      this.currentEmployee = employee;
       button.setAttribute('data-target', '#updateEmployeeModal');
     }
 
     if (mode === 'delete') {
+      this.currentEmployee = employee;
       button.setAttribute('data-target', '#deleteEmployeeModal');
     }
 

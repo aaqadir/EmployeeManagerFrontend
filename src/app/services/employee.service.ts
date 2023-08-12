@@ -38,7 +38,7 @@ export class EmployeeService {
 
   public deleteEmployeeById(employeeId: number): Observable<void> {
     return this.httpClient.delete<void>(
-      `${this.apiUrl}/employee/delete${employeeId}`
+      `${this.apiUrl}/employee/delete/${employeeId}`
     );
   }
 }
